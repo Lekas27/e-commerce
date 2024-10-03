@@ -1,0 +1,51 @@
+/* General styling for the row containing the search and filters */
+.row {
+    margin-bottom: 1.5rem; /* Space below the row */
+  }
+  
+  /* Styling for the search input field */
+  .search-input {
+    border: 1px solid #e0e0e0; /* Light grey border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px; /* Inner padding */
+    width: 100%; /* Full width */
+    transition: border-color 0.3s ease; /* Smooth transition on focus */
+    font-size: 1rem; /* Font size */
+  }
+  
+  /* Change border color on focus */
+  .search-input:focus {
+    border-color: #ff7e00; /* Orange color on focus */
+    outline: none; /* Remove default outline */
+  }
+  
+  /* Styling for the select dropdowns */
+  .category-select,
+  .gender-select {
+    border: 1px solid #e0e0e0; /* Light grey border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px; /* Inner padding */
+    width: 100%; /* Full width */
+    background-color: white; /* Background color */
+    transition: border-color 0.3s ease; /* Smooth transition on focus */
+  }
+  
+  /* Change border color on focus */
+  .category-select:focus,
+  .gender-select:focus {
+    border-color: #ff7e00; /* Orange color on focus */
+    outline: none; /* Remove default outline */
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .col-md-6, .col-md-3 {
+      margin-bottom: 1rem; /* Space between inputs on smaller screens */
+    }
+  }
+  
+  /* Additional styling for options (optional) */
+  option {
+    padding: 10px; /* Inner padding for options */
+  }
+ 

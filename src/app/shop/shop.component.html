@@ -1,0 +1,169 @@
+<div class="container py-4 topm">
+  <!-- Search Bar and Filters -->
+  <div class="row mb-4 align-items-center">
+    <div class="col-12 col-md-6 mb-3 mb-md-0">
+      <input 
+        [(ngModel)]="searchTerm" 
+        (input)="filterProducts()" 
+        type="text" 
+        class="form-control search-input" 
+        placeholder="Search products..." 
+        aria-label="Search products"
+      >
+    </div>
+    <div class="col-12 col-md-3 mb-3 mb-md-0">
+      <select 
+        [(ngModel)]="selectedCategory" 
+        (change)="filterProducts()" 
+        class="form-select category-select" 
+        aria-label="Select category"
+      >
+        <option value="">All Categories</option>
+        <option value="Tents and Shelters">Tents and Shelters</option>
+        <option value="Sleeping bags and Sleeping gear">Sleeping bags and Sleeping gear</option>
+        <option value="Backpacks">Backpacks</option>
+        <option value="Clothing and footwear">Clothing and footwear</option>
+      </select>
+    </div>
+    <div class="col-12 col-md-3" *ngIf="selectedCategory === 'Clothing and footwear'">
+      <select 
+        [(ngModel)]="selectedGender" 
+        (change)="filterProducts()" 
+        class="form-select gender-select" 
+        aria-label="Select gender"
+      >
+        <option value="">All Genders</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+    </div>
+  </div>
+  
+
+  <div class="row">
+    <div *ngFor="let product of filteredProducts" class="col-12 col-sm-6 col-lg-3 mb-4 d-flex justify-content-center">
+      <div class="card product-card">
+        <img class="card-img-top" [src]="'http://localhost:1337' + product?.image?.[0]?.url" alt="{{ product?.title }}" *ngIf="product?.image?.length">
+        <div class="card-body text-center">
+          <h5 class="card-title">{{ product?.title }}</h5>
+          <p class="card-description">{{ product?.description?.[0]?.children?.[0]?.text || 'No description available' }}</p>
+          <p class="card-price">Price: {{ product?.price || 'N/A' }}€</p>
+          <a class="btn btn-primary" (click)="openOrderPopup(product)">Buy Now</a>
+          <button type="button" class="btn btn-secondary" (click)="setProductId(product.id)">
+            Add Review
+          </button>
+          <a class="link-orange" (click)="openProductPopup(product.documentId)">
+            View Details
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- If no products are available -->
+    <div *ngIf="filteredProducts.length === 0" class="col-12">
+      <p class="text-center">No products available</p>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showPopup" class="modal" (click)="closePopup()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <span (click)="closePopup()" class="close">&times;</span>
+    <h2>{{ selectedProduct?.title }}</h2> <!-- Display title -->
+    <img [src]="'http://localhost:1337' + selectedProduct?.image?.[0]?.url" alt="{{ selectedProduct?.title }}"> <!-- Display image -->
+    <p>{{ selectedProduct?.description[0]?.children[0]?.text }}</p> <!-- Display description -->
+    <p>Price: {{ selectedProduct?.price }}€</p> <!-- Display price -->
+    <h3>Reviews:</h3>
+    <div *ngIf="reviews.length > 0">
+      <ul class="review-list">
+        <li *ngFor="let review of reviews" class="review-item">
+          <span class="review-name">{{ review.name }}</span>: 
+          <span class="review-rating">{{ review.rating }} stars</span>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="reviews.length === 0">
+      <p>No reviews available for this product.</p>
+    </div>
+  </div>
+</div>
+
+
+
+<div *ngIf="productId !== null" class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h5 class="modal-title">Add Review</h5>
+      <button type="button" class="close" (click)="closeModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <form (ngSubmit)="submitReview()">
+        <div class="mb-3">
+          <label for="reviewName" class="form-label">Your Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="reviewName"
+            [(ngModel)]="review.name"
+            name="name"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="reviewRating" class="form-label">Rating</label>
+          <select
+            class="form-select"
+            id="reviewRating"
+            [(ngModel)]="review.rating"
+            name="rating"
+            required
+          >
+            <option *ngFor="let i of [1, 2, 3, 4, 5]" [value]="i">{{ i }}</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Review</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="productId !== null" class="modal-backdrop"></div>
+<!-- Popup form -->
+<div *ngIf="showOrderPopup">
+  <!-- Backdrop -->
+  <div class="modals-backdrop" (click)="closeOrderPopup()"></div>
+
+  <!-- Modal Popup -->
+  <div class="modals">
+    <div class="modals-content">
+      <span (click)="closeOrderPopup()" class="close">&times;</span>
+      <h2>Order Product: {{ selectedProduct?.title }}</h2>
+
+      <!-- Order Form -->
+      <form (ngSubmit)="submitOrder()">
+        <div class="mb-3">
+          <label for="quantity">Quantity</label>
+          <input type="number" [(ngModel)]="order.quantity" name="quantity" class="form-control" min="1" required>
+        </div>
+        <div class="mb-3">
+          <label for="customerName">Customer Name</label>
+          <input type="text" [(ngModel)]="order.customer_name" name="customer_name" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label for="customerEmail">Customer Email</label>
+          <input type="email" [(ngModel)]="order.customer_email" name="customer_email" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label for="address">Address</label>
+          <textarea [(ngModel)]="order.address" name="address" class="form-control" required></textarea>
+        </div>
+        
+        <!-- Order Button -->
+        <button type="submit" class="btn btn-success">Order</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+

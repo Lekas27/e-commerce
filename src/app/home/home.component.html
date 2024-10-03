@@ -1,0 +1,231 @@
+<div class="banner">
+  <div class="banner-text container">
+    <h1 class="mb-4">WEAR CLOTHS<br> THAT MATTER</h1>
+    <a class="shop-now mt-4" routerLink="/shop">Shop Now</a>
+  </div>
+  <div class="overlay"></div>
+</div>
+
+
+
+<div class="container py-4 mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Latest Products</h2>
+    <a routerLink="/shop" class="link-orange">See more →</a>
+  </div>
+  <div class="row">
+    <div *ngFor="let product of products" class="col-12 col-sm-6 col-lg-3 mb-4 d-flex justify-content-center">
+      <div class="card product-card">
+        <img class="card-img-top" [src]="'http://localhost:1337' + product?.image[0]?.url" alt="{{ product?.title }}">
+        <div class="card-body text-center">
+          <h5 class="card-title">{{ product?.title }}</h5>
+          <p class="card-description">{{ product?.description[0]?.children[0]?.text }}</p>
+          <p class="card-price">Price: {{ product?.price }}€</p>
+          <a href="#" class="btn btn-primary"  (click)="openOrderPopup(product)">Buy Now</a>
+          <!-- Add Review Button -->
+          <button type="button" class="btn btn-secondary" (click)="setProductId(product.id)">
+            Add Review
+          </button>
+          <a class="link-orange" (click)="openProductPopup(product.documentId)">
+            View Details
+          </a>
+          
+        </div>
+      </div>
+    </div>
+
+    <!-- If there are no products -->
+    <div *ngIf="products.length === 0" class="col-12">
+      <p class="text-center">No products available</p>
+    </div>
+  </div>
+
+ <!-- Modal for Product Details -->
+ <div *ngIf="showPopup" class="modal">
+  <div class="modal-content">
+    <span (click)="closePopup()" class="close">&times;</span>
+    <h2>{{ selectedProduct?.title }}</h2> <!-- Display title -->
+    <img [src]="'http://localhost:1337' + selectedProduct?.image?.[0]?.url" alt="{{ selectedProduct?.title }}"> <!-- Display image (if available) -->
+    <p>{{ selectedProduct?.description[0]?.children[0]?.text }}</p> <!-- Display description -->
+    <p>Price: {{ selectedProduct?.price }}€</p> <!-- Display price -->
+    <h3>Reviews:</h3>
+    <div *ngIf="reviews.length > 0">
+      <ul class="review-list">
+        <li *ngFor="let review of reviews" class="review-item">
+          <span class="review-name">{{ review.name }}</span>: 
+          <span class="review-rating">{{ review.rating }} stars</span>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="reviews.length === 0">
+      <p>No reviews available for this product.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Popup form -->
+<div *ngIf="showOrderPopup">
+  <!-- Backdrop -->
+  <div class="modals-backdrop" (click)="closeOrderPopup()"></div>
+
+  <!-- Modal Popup -->
+  <div class="modals">
+    <div class="modals-content">
+      <span (click)="closeOrderPopup()" class="close">&times;</span>
+      <h2>Order Product: {{ selectedProduct?.title }}</h2>
+
+      <!-- Order Form -->
+      <form (ngSubmit)="submitOrder()">
+        <div class="mb-3">
+          <label for="quantity">Quantity</label>
+          <input type="number" [(ngModel)]="order.quantity" name="quantity" class="form-control" min="1" required>
+        </div>
+        <div class="mb-3">
+          <label for="customerName">Customer Name</label>
+          <input type="text" [(ngModel)]="order.customer_name" name="customer_name" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label for="customerEmail">Customer Email</label>
+          <input type="email" [(ngModel)]="order.customer_email" name="customer_email" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label for="address">Address</label>
+          <textarea [(ngModel)]="order.address" name="address" class="form-control" required></textarea>
+        </div>
+        
+        <!-- Order Button -->
+        <button type="submit" class="btn btn-success">Order</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+  <!-- Review Modal -->
+  <div *ngIf="productId !== null" class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Review</h5>
+        <button type="button" class="close" (click)="closeModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="submitReview()">
+          <div class="mb-3">
+            <label for="reviewName" class="form-label">Your Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="reviewName"
+              [(ngModel)]="review.name"
+              name="name"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="reviewRating" class="form-label">Rating</label>
+            <select
+              class="form-select"
+              id="reviewRating"
+              [(ngModel)]="review.rating"
+              name="rating"
+              required
+            >
+              <option *ngFor="let i of [1, 2, 3, 4, 5]" [value]="i">{{ i }}</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit Review</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="productId !== null" class="modal-backdrop"></div>
+
+
+
+<div class="testimonials "></div>
+  <div class="container">
+    <h2 class="text-center mb-4">What Our Customers Say</h2>
+    <div class="row">
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card shadow-sm p-3">
+          <p>"Amazing quality gear! Highly recommend ShopAM for all outdoor lovers."</p>
+          <p class="text-end"><strong>— John D.</strong></p>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card shadow-sm p-3">
+          <p>"Fast shipping and great customer service. Will buy again!"</p>
+          <p class="text-end"><strong>— Sarah W.</strong></p>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card shadow-sm p-3">
+          <p>"Their hiking boots are top-notch, super comfortable for long treks."</p>
+          <p class="text-end"><strong>— Mike L.</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Our Journey</h2>
+      <div class="timeline-items">
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <h3>2020</h3>
+            <p>ShopAM was founded with a mission to provide quality camping and hiking gear to outdoor enthusiasts.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <h3>2021</h3>
+            <p>Launched our first line of eco-friendly tents and camping gear, promoting sustainability in the outdoors.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <h3>2022</h3>
+            <p>Expanded our product range to include hiking boots and apparel, enhancing our offerings for adventurers.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <h3>2023</h3>
+            <p>Introduced our customer loyalty program, rewarding our loyal customers with exclusive discounts and offers.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="adventure-inspiration py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Get Inspired</h2>
+      <div class="row">
+        <div class="col-lg-6 mb-4">
+          <div class="inspiration-card p-4 bg-light shadow-sm">
+            <h3>"The mountains are calling and I must go."</h3>
+            <p class="text-end"><strong>— John Muir</strong></p>
+          </div>
+        </div>
+        <div class="col-lg-6 mb-4">
+          <div class="inspiration-card p-4 bg-light shadow-sm">
+            <h3>"Adventure awaits, go find it!"</h3>
+            <p class="text-end"><strong>— Unknown</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="community-engagement py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Join Our Community</h2>
+      <p class="text-center">Become part of a community that loves adventure! Join us for local hikes, workshops, and events to meet like-minded outdoor enthusiasts.</p>
+      <div class="text-center">
+        <a routerLink="/contact" class="btn btn-orange">Learn More</a>
+      </div>
+    </div>
+  </div>
+  

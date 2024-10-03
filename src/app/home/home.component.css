@@ -1,0 +1,160 @@
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: 1;
+  }
+  
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-50px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  /* Testimonials Section */
+.testimonials {
+  padding: 3rem 0;
+}
+
+.testimonials h2 {
+  font-size: 2.5rem;
+  color: #ff6a00; /* Orange color */
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
+
+.testimonials .card {
+  border: none;
+  background-color: white;
+  transition: transform 0.3s, box-shadow 0.3s;
+  border-radius: 10px;
+}
+
+.testimonials .card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.testimonials p {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #333;
+}
+
+.testimonials .text-end strong {
+  font-size: 1.1rem;
+  color: #ff6a00; /* Orange color */
+}
+
+.testimonials .card-shadow-sm {
+  padding: 2rem;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .testimonials h2 {
+    font-size: 2rem;
+  }
+
+  .testimonials .card {
+    margin-bottom: 2rem;
+  }
+}
+
+
+/* Timeline Section */
+.timeline {
+  background-color: #f9f9f9;
+  padding: 50px 0; /* Added padding for top and bottom */
+}
+
+.timeline h2 {
+  font-size: 2.5rem;
+  color: #ff6a00; /* Orange color */
+  margin-bottom: 2rem;
+  font-weight: 600; /* Bold weight for emphasis */
+  text-transform: uppercase; /* Uppercase for a modern touch */
+  letter-spacing: 1px; /* Spacing between letters for a sleek look */
+}
+
+.timeline-items {
+  position: relative;
+}
+
+.timeline-item {
+  position: relative;
+  padding: 20px;
+  margin: 20px 0;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s; /* Smooth transform effect */
+}
+
+.timeline-item:hover {
+  transform: scale(1.03); /* Slightly enlarge on hover */
+}
+
+.timeline-content {
+  padding: 20px;
+}
+
+.timeline-content h3 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 10px;
+  font-weight: 600; /* Bold weight for emphasis */
+  text-transform: capitalize; /* Capitalize for a modern touch */
+  letter-spacing: 0.5px; /* Slight spacing for a sleek look */
+}
+
+.timeline-content p {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6; /* Improved line spacing for readability */
+  margin: 0; /* Reset margin */
+}
+
+.timeline-item:nth-child(even) {
+  margin-left: 50px;
+}
+
+.timeline-item:nth-child(odd) {
+  margin-right: 50px;
+}
+
+@media (max-width: 768px) {
+  .timeline-item {
+    margin: 10px 0;
+    padding: 15px;
+  }
+
+  .timeline-item:nth-child(even),
+  .timeline-item:nth-child(odd) {
+    margin: 0;
+  }
+}
+
+.inspiration-card {
+  border-left: 5px solid #ff6a00; /* Orange accent on the left */
+  transition: transform 0.3s; /* Smooth hover effect */
+  height: 150px;
+}
+
+.inspiration-card:hover {
+  transform: translateY(-5px); /* Lift effect on hover */
+}
+
+h2 {
+  color: #ff6a00; /* Orange color for section headings */
+  padding: 4px 10px;
+}
+
+.text-center {
+  font-weight: 500; /* Medium weight for better readability */
+  line-height: 1.6; /* Improved spacing for readability */
+}
+

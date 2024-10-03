@@ -1,0 +1,31 @@
+.text-orange {
+    color: #ff7f50; /* Orange color */
+}
+
+.btn-orange {
+    background-color: #ff7f50; /* Button color */
+    color: white;
+    border: none;
+}
+
+.btn-orange:hover {
+    background-color: #ff6347; /* Darker orange on hover */
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.lead {
+    font-size: 1.2rem; /* Increase font size */
+}
+
+.shadow {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+}
+
+/* Animations */
+.animate__fadeInLeft {
+    animation-duration: 1s;
+}

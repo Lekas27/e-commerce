@@ -1,0 +1,45 @@
+.footer {
+    background-color: #ff7f50; /* Orange background */
+    color: white;
+}
+
+.footer h5 {
+    color: white;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.footer a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: #ff6347; /* Slightly darker orange on hover */
+}
+
+.footer ul {
+    padding: 0;
+    list-style: none;
+}
+
+.footer i {
+    margin-right: 10px;
+}
+
+/* Social media icons hover effect */
+.footer .list-inline-item a:hover {
+    color: #ff6347; /* Darker orange on hover */
+}
+
+/* Responsive padding for footer sections */
+@media (max-width: 768px) {
+    .footer {
+        text-align: center;
+    }
+
+    .footer .list-inline {
+        justify-content: center;
+    }
+}

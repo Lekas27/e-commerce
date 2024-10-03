@@ -1,0 +1,42 @@
+h1 {
+    color: #ff7f50; /* Orange heading color */
+}
+
+.form-control {
+    border-radius: 0.25rem;
+    border: 1px solid #ddd;
+}
+
+.btn-orange {
+    background-color: #ff7f50; /* Button color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-orange:hover {
+    background-color: #ff6347; /* Darker orange on hover */
+}
+
+/* Input focus effect */
+.form-control:focus {
+    border-color: #ff7f50;
+    box-shadow: 0 0 5px rgba(255, 127, 80, 0.5);
+}
+
+/* Adding some margin to form groups */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .btn-orange {
+        width: 100%;
+    }
+}
